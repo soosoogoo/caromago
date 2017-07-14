@@ -21,7 +21,7 @@ func send(conn net.Conn) {
 		session := GetSession()
 		message := &Msg{
 			Meta: map[string]interface{}{
-				"meta": "test",
+				"meta": "Test",
 				"ID":   strconv.Itoa(i),
 			},
 			Content: Msg{

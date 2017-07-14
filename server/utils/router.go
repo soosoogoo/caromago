@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"reflect"
 
 	"../controller"
 )
@@ -72,7 +73,10 @@ func TaskDeliver(postdata []byte, conn net.Conn) {
 		if err != nil {
 			Log(err)
 		}
+
 		if pred.(func(entermsg Msg) bool)(entermsg) {
+
+			Log(entermsg.Meta["meta"])
 			result := act.(Controller).Excute(entermsg)
 			conn.Write(result)
 			return
@@ -94,19 +98,35 @@ func (this *EchoController) Excute(message Msg) []byte {
 	mirrormsg, err := json.Marshal(message)
 	Log("echo the message:", string(mirrormsg))
 
-	Log("122222222222222222222")
-	scontroller.Test()
 	CheckError(err)
 	return mirrormsg
 }
 
+var regStruct map[string]interface{}
+
 func init() {
-	var echo EchoController
-	routers = make([][2]interface{}, 0, 20)
+	//var echo EchoController
+
+	tControllerName := "testController"
+	//var tController = new(tControllerName)
+
+	if regStruct[tControllerName] != nil {
+		t := reflect.ValueOf(regStruct[tControllerName]).Type()
+		tController := reflect.New(t).Elem()
+		fmt.Println(tController)
+	}
+
+	v := make([]reflect.Value, 3)
+	v[0] = reflect.ValueOf(tController)
+
+	funcName := "Test"
+	m, _ := reflect.TypeOf(tController).MethodByName(funcName)
+	m.Func.Call(v)
+
 	Route(func(entry Msg) bool {
-		if entry.Meta["meta"] == "test" {
+		if entry.Meta["meta"] == "Test" {
 			return true
 		}
 		return false
-	}, &echo)
+	}, &tController)
 }

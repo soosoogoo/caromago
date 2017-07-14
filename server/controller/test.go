@@ -1,10 +1,14 @@
 package scontroller
 
 import (
-	"fmt"
-	"utils"
+	"log"
 )
 
-func Test() {
-	utils.Log("asda1111111111111111111111111111111111111")
+type testController struct {
+	i    int
+	name string
+}
+
+func (ac *testController) Test() {
+	log.Println("asd")
 }
