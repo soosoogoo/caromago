@@ -17,3 +17,7 @@ func init() {
 type Hello struct {
 	Name string
 }
+
+type Login struct {
+	Name string
+}
