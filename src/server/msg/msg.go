@@ -10,6 +10,7 @@ var Processor = json.NewProcessor()
 func init() {
 	// 这里我们注册了一个 JSON 消息 Hello
 	Processor.Register(&Hello{})
+	Processor.Register(&RoleLogin{})
 }
 
 // 一个结构体定义了一个 JSON 消息的格式
@@ -19,5 +20,9 @@ type Hello struct {
 }
 
 type Login struct {
+	Name string
+}
+
+type RoleLogin struct {
 	Name string
 }

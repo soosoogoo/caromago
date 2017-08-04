@@ -19,7 +19,7 @@ func main() {
 	// Hello 消息（JSON 格式）
 	// 对应游戏服务器 Hello 消息结构体
 	data := []byte(`{
-		"Hello": {
+		"RoleLogin": {
 			"Name": "hello,world"
 		}
 	}`)
