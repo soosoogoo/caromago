@@ -2,8 +2,9 @@ package conf
 
 import (
 	"encoding/json"
-	"github.com/name5566/leaf/log"
 	"io/ioutil"
+
+	"github.com/name5566/leaf/log"
 )
 
 var Server struct {
@@ -18,12 +19,36 @@ var Server struct {
 	ProfilePath string
 }
 
+var Mysql struct {
+	Hostname string
+	Username string
+	Password string
+	Database string
+	Dbdriver string
+	Dbprefix string
+	Pconnect int
+	Db_debug int
+	Cache_on int
+	Cachedir string
+	Char_set string
+	Dbcollat string
+	Swap_pre string
+	Autoinit int
+	Stricton int
+}
+
+//初始化
 func init() {
-	data, err := ioutil.ReadFile("conf/server.json")
+	loadConfig("conf/server.json", &Server)
+	loadConfig("conf/mysql.json", &Mysql)
+}
+
+func loadConfig(configPath string, structConfig interface{}) {
+	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		log.Fatal("%v", err)
 	}
-	err = json.Unmarshal(data, &Server)
+	err = json.Unmarshal(data, &structConfig)
 	if err != nil {
 		log.Fatal("%v", err)
 	}

@@ -11,6 +11,9 @@ func init() {
 	// 这里我们注册了一个 JSON 消息 Hello
 	Processor.Register(&Hello{})
 	Processor.Register(&RoleLogin{})
+
+	//通用
+	Processor.Register(&ReturnMsg{})
 }
 
 // 一个结构体定义了一个 JSON 消息的格式
@@ -24,5 +27,10 @@ type Login struct {
 }
 
 type RoleLogin struct {
-	Name string
+	Role_id string
+}
+
+type ReturnMsg struct {
+	Ststus interface{}
+	Info   interface{}
 }

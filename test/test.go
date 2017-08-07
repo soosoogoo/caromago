@@ -20,7 +20,7 @@ func main() {
 	// 对应游戏服务器 Hello 消息结构体
 	data := []byte(`{
 		"RoleLogin": {
-			"Name": "hello,world"
+			"Role_id": "hello,world"
 		}
 	}`)
 

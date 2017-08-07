@@ -1,0 +1,19 @@
+{
+	"Hostname" : "127.0.0.1",
+    "Username" : "root",
+    "Password" : "WeiXin123",
+    "Database" : "soosoogoo_main",
+    "Dbdriver" : "mysqli",
+    "Dbprefix" : "soosoogoo_",
+    "Pconnect" : 0,
+    "Db_debug" : 1,
+    "Cache_on" : 0,
+    "Cachedir" : "",
+    "Char_set" : "utf8",
+    "Dbcollat" : "utf8_general_ci",
+    "Swap_pre" : "",
+    "Autoinit" : 1,
+    "Stricton" : 0
+}
+
+
