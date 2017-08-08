@@ -2,7 +2,8 @@ package internal
 
 import (
 	"reflect"
-	"server/db/mysql"
+	//"server/db/mysql"
+	"server/model/user"
 	"server/msg"
 
 	"github.com/name5566/leaf/gate"
@@ -41,11 +42,13 @@ func handleRoleLogin(args []interface{}) {
 	a := args[1].(gate.Agent)
 
 	//查询用户信息
-	var md = new(mysql.MysqlDriver)
-	var username = md.Test()
+	var md = new(user.UserModel)
+	var username = md.GetUserInfo()
 
 	// 输出收到的消息的内容
 	log.Debug("hello %v", m.Role_id)
+
+	//查询
 
 	// 给发送者回应一个 Hello 消息
 	a.WriteMsg(&msg.ReturnMsg{

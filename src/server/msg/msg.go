@@ -12,11 +12,19 @@ func init() {
 	Processor.Register(&Hello{})
 	Processor.Register(&RoleLogin{})
 
+	//test
+	Processor.Register(&S2C_Left{})
+
 	//通用
 	Processor.Register(&ReturnMsg{})
 }
 
 // 一个结构体定义了一个 JSON 消息的格式
+type ReturnMsg struct {
+	Ststus interface{}
+	Info   interface{}
+}
+
 // 消息名为 Hello
 type Hello struct {
 	Name string
@@ -30,7 +38,7 @@ type RoleLogin struct {
 	Role_id string
 }
 
-type ReturnMsg struct {
-	Ststus interface{}
-	Info   interface{}
+type S2C_Left struct {
+	NumUsers int
+	UserName string
 }
