@@ -5,14 +5,15 @@ import (
 	"server/game"
 	"server/gate"
 	"server/login"
-	"server/model/user"
+
+	//	"server/model/user"
 
 	"github.com/name5566/leaf"
 	lconf "github.com/name5566/leaf/conf"
 
 	//"server/db/mysql"
 
-	"fmt"
+	//	"fmt"
 )
 
 func main() {
@@ -23,9 +24,9 @@ func main() {
 	//fmt.Println(conf.Server.LogLevel)
 	//fmt.Println(conf.MAINDATABASE)
 
-	var md = new(user.UserModel)
-	var username = md.GetUserInfo()
-	fmt.Println(username)
+	//var md = new(user.UserModel)
+	//var username = md.GetUserInfo(1)
+	//fmt.Println(username)
 
 	lconf.LogLevel = conf.Server.LogLevel
 	lconf.LogPath = conf.Server.LogPath

@@ -8,12 +8,11 @@ import (
 var Processor = json.NewProcessor()
 
 func init() {
-	// 这里我们注册了一个 JSON 消息 Hello
-	Processor.Register(&Hello{})
-	Processor.Register(&RoleLogin{})
 
-	//test
-	Processor.Register(&S2C_Left{})
+	//login
+	Processor.Register(&Login{})
+
+	Processor.Register(&RoleLogin{})
 
 	//通用
 	Processor.Register(&ReturnMsg{})
@@ -25,17 +24,14 @@ type ReturnMsg struct {
 	Info   interface{}
 }
 
-// 消息名为 Hello
-type Hello struct {
-	Name string
-}
-
 type Login struct {
-	Name string
+	//UserName string
+	//Password string
+	RoleId int
 }
 
 type RoleLogin struct {
-	Role_id string
+	RoleId int
 }
 
 type S2C_Left struct {

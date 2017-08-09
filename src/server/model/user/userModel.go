@@ -9,7 +9,7 @@ import (
 )
 
 type User struct {
-	User_id int `gorm:"primary_key"`
+	UserId int `gorm:"primary_key"`
 
 	Username string //必须要大些才能在外部调用
 	sex      int
@@ -31,10 +31,10 @@ type UserModel struct {
 //#TODO::构造函数怎么写
 
 //查询用户信息
-func (u *UserModel) GetUserInfo() User {
+func (u *UserModel) GetUserInfo(RoleId int) User {
 	var user User
 	var uDB = u.Connent(conf.MAINDATABASE)
-	row := uDB.First(&user, "user_id = ?", "1")
+	row := uDB.First(&user, "user_id = ?", RoleId)
 
 	if row != nil {
 		fmt.Println(user.Username)

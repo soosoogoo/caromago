@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"server/msg"
 
 	"github.com/name5566/leaf/gate"
@@ -16,26 +17,29 @@ var users = make(map[gate.Agent]struct{})
 func rpcNewAgent(args []interface{}) {
 	a := args[0].(gate.Agent)
 	users[a] = struct{}{}
+	fmt.Println("上线回调2 ", len(users))
 }
 
 func rpcCloseAgent(args []interface{}) {
+	fmt.Println("离线回调2 ")
 	a := args[0].(gate.Agent)
 	delete(users, a)
 
-	userName, ok := a.UserData().(string)
+	userInfo, ok := a.UserData().(string)
 	if !ok {
 		return
 	}
 
-	broadcastMsg(&msg.S2C_Left{
-		NumUsers: len(users),
-		UserName: userName,
+	BroadcastMsg(&msg.ReturnMsg{
+		Ststus: "aaa",
+		Info:   userInfo,
 	}, a)
 }
 
-func broadcastMsg(msg interface{}, _a gate.Agent) {
+func BroadcastMsg(msg interface{}, _a gate.Agent) {
 	for a := range users {
 		if a == _a {
+			fmt.Println("nimayoudu ")
 			continue
 		}
 		a.WriteMsg(msg)
