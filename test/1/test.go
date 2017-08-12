@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
+	//"reflect"
 
 	"github.com/name5566/leaf/log"
 )
@@ -15,7 +16,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
+	defer conn.Close()
+	go writeFromServer(conn)
 	// Hello 消息（JSON 格式）
 	// 对应游戏服务器 Hello 消息结构体
 	data := []byte(`{
@@ -35,10 +37,6 @@ func main() {
 	// 发送消息
 	conn.Write(m)
 
-	log.Debug("asdasd")
-
-	defer conn.Close()
-	go writeFromServer(conn)
 	for {
 		var talkContent string
 		fmt.Scanln(&talkContent)

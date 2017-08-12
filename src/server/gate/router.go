@@ -4,13 +4,18 @@ import (
 	"server/game"
 	"server/login"
 	"server/msg"
+	"server/room"
 )
 
 func init() {
 
+	//登录模块
+	msg.Processor.SetRouter(&msg.Login{}, login.ChanRPC)
+
+	//游戏模块
 	msg.Processor.SetRouter(&msg.RoleLogin{}, game.ChanRPC)
 
-	// 模块间使用 ChanRPC 通讯，消息路由也不例外
-	msg.Processor.SetRouter(&msg.Login{}, login.ChanRPC)
+	//房间模块
+	msg.Processor.SetRouter(&msg.CreateRoom{}, room.ChanRPC)
 
 }

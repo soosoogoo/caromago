@@ -23,47 +23,68 @@ func (d User) TableName() string {
 type MysqlDriver struct {
 	database string
 	DbConn   *gorm.DB
-	//AllConn  map[string]*gorm.DB
+	AllConn  map[string]*gorm.DB
 }
 
 /**
 初始化数据库连接
 */
-func (c *MysqlDriver) Connent(databae string) (um *gorm.DB) {
+func (c *MysqlDriver) Connent(databae string) *gorm.DB {
 
-	db, err := gorm.Open("mysql", conf.Mysql.Username+":WeiXin123@tcp(127.0.0.1:3306)/"+databae+"?charset=utf8&parseTime=False&loc=Local")
-	//defer db.Close()
+	fmt.Println(databae)
+	var db *gorm.DB
+	if databae == conf.MAINDATABASE {
+		db, _ = gorm.Open("mysql", conf.Mysql.Username+":"+conf.Mysql.Password+"@tcp("+conf.Mysql.Hostname+":3306)/"+databae+"?charset=utf8&parseTime=False&loc=Local")
+	} else {
+		m := c.GetMysqlDevice(databae)
+		db, _ = gorm.Open("mysql", m.Username+":"+m.Password+"@tcp("+m.Hostname+":3306)/"+databae+"?charset=utf8&parseTime=False&loc=Local")
+	}
 
-	//c.AllConn = make(map[string]*gorm.DB)
-	//if _, ok := c.AllConn[databae]; !ok {
-	//	c.DbConn = db
-	//	c.AllConn[databae] = db
-	//	c.database = databae
-	//}
+	//优先使用
+	db.SingularTable(true)
+
+	// 打印LOG
+	db.LogMode(true)
+
+	return db
+}
+
+/**
+获取mysql配置信息
+*/
+type MysqlDevice struct {
+	server_id int `gorm:"primary_key"`
+
+	Dbdriver string //必须要大些才能在外部调用
+	Hostname string
+	Username string
+	Password string
+	Database string
+	Dbprefix string
+	Pconnect int
+}
+
+func (d MysqlDevice) TableName() string {
+	return "soosoogoo_db_device"
+}
+
+//获取配置的mysql设置
+func (c *MysqlDriver) GetMysqlDevice(server_id string) MysqlDevice {
+
+	db, err := gorm.Open("mysql", conf.Mysql.Username+":"+conf.Mysql.Password+"@tcp("+conf.Mysql.Hostname+":3306)/"+conf.Mysql.Database+"?charset=utf8&parseTime=False&loc=Local")
 
 	if err != nil {
 		println(err.Error())
 	}
-	c.DbConn = db
-	um = db
-	//优先使用
-	um.SingularTable(true)
 
-	// 打印LOG
-	um.LogMode(true)
+	db.LogMode(true)
 
-	return
-}
+	var mysqlDevice MysqlDevice
 
-func (c *MysqlDriver) Test() User {
-
-	c.Connent("soosoogoo_main")
-	var user User
-
-	row := c.DbConn.First(&user, "user_id = ?", "1")
+	row := db.First(&mysqlDevice, "server_id = ?", server_id)
 
 	if row != nil {
-		fmt.Println(user.Username)
+		//fmt.Println(mysqlDevice.server_id)
 	}
-	return user
+	return mysqlDevice
 }

@@ -1,7 +1,7 @@
 package user
 
 import (
-	"fmt"
+	//"fmt"
 	"server/conf"
 	"server/db/mysql"
 
@@ -34,10 +34,7 @@ type UserModel struct {
 func (u *UserModel) GetUserInfo(RoleId int) User {
 	var user User
 	var uDB = u.Connent(conf.MAINDATABASE)
-	row := uDB.First(&user, "user_id = ?", RoleId)
+	uDB.First(&user, "user_id = ?", RoleId)
 
-	if row != nil {
-		fmt.Println(user.Username)
-	}
 	return user
 }

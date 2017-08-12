@@ -6,6 +6,7 @@ import (
 	"server/msg"
 
 	"github.com/name5566/leaf/gate"
+	"github.com/name5566/leaf/log"
 )
 
 type Module struct {
@@ -26,5 +27,14 @@ func (m *Module) OnInit() {
 		LittleEndian:    conf.LittleEndian,
 		Processor:       msg.Processor,
 		AgentChanRPC:    game.ChanRPC,
+	}
+
+	switch conf.Encoding {
+	case "json":
+		m.Gate.JSONProcessor = msg.JSONProcessor
+	case "protobuf":
+		m.Gate.ProtobufProcessor = msg.ProtobufProcessor
+	default:
+		log.Fatal("unknown encoding: %v", conf.Encoding)
 	}
 }

@@ -7,11 +7,11 @@ import (
 
 var (
 	// log conf
-	LogFlag = log.LstdFlags
-
+	LogFlag  = log.LstdFlags
+	Encoding = "json" // "json" or "protobuf"
 	// gate conf
 	PendingWriteNum        = 2000
-	MaxMsgLen       uint32 = 4096
+	MaxMsgLen       uint32 = 409600
 	HTTPTimeout            = 10 * time.Second
 	LenMsgLen              = 2
 	LittleEndian           = false

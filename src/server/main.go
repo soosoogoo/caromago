@@ -5,15 +5,12 @@ import (
 	"server/game"
 	"server/gate"
 	"server/login"
+	"server/room"
 
 	//	"server/model/user"
 
 	"github.com/name5566/leaf"
 	lconf "github.com/name5566/leaf/conf"
-
-	//"server/db/mysql"
-
-	//	"fmt"
 )
 
 func main() {
@@ -38,6 +35,7 @@ func main() {
 		game.Module,
 		gate.Module,
 		login.Module,
+		room.Module,
 	)
 
 }

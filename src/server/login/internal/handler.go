@@ -44,6 +44,6 @@ func handleLogin(args []interface{}) {
 		Ststus: "asdasd",
 		Info:   userInfo,
 	}, a)
-	//skeleton.AsynCall(game.ChanRPC, "NewAgent", args)
 
+	//game.ChanRPC.Go("CNewAgent", m, a)
 }
