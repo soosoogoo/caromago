@@ -3,8 +3,11 @@ package internal
 import (
 	"fmt"
 	"server/db/sredis"
+
+	"github.com/garyburd/redigo/redis"
 	//"server/msg"
 
+	"server/base"
 	"server/conf"
 
 	"github.com/name5566/leaf/gate"
@@ -12,7 +15,7 @@ import (
 
 //用户信息
 type UserInfo struct {
-	userinfo  map[string]string
+	Info      map[string]string
 	group     map[string]string
 	room_id   int
 	battle_id int
@@ -30,9 +33,9 @@ func BindUid(uid int, a gate.Agent) {
 	UsersList[uid] = a
 
 	//设置用户信息
-	var userinfo UserInfo
-	userinfo.status = conf.FREEGROUP
-	a.SetUserData(userinfo)
+	var info UserInfo
+	info.status = conf.FREEGROUP
+	a.SetUserData(info)
 
 	fmt.Println(a.UserData())
 }
@@ -58,17 +61,21 @@ func AddToGroup(uid int, group string, indexKey int) {
 
 	var rd = sredis.RedisDriver{Database: conf.MAINREDISDATABASE}
 
-	userList, err = rd.Hset(group, indexKey, userList)
+	//获取当前集合
+	userList, _ = redis.Bytes(rd.Hget(group, indexKey, userList))
 
 	if userList == nil {
-		var userList = []int32{uid}
+		var userList = make(map[int]int)
+		userList[uid] = 1
 	} else {
-		append(userList, uid)
+		var ul = base.StringToMap(userList)
+		ul[uid] = 1
 	}
-	rd.Hset(group, indexKey, userList)
+
+	//储存信息
+	rd.Hset(group, indexKey, base.MaptoString(userList))
 
 	//groupUser, _ := rd.Hget(channel, indexKey)
-
 	//获取人数
 	//	_, err = c.Do("HGET", channel, indexKey)
 	//	_, err = c.Do("HSET", channel, indexKey, uid)
