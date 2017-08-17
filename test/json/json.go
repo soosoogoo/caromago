@@ -21,12 +21,18 @@ func main() {
 	a[1] = 2
 	a[2] = 3
 
+	//写
 	b := MapToString(a)
 	c.Do("HSET", "testMapToString", "1", b)
 
+	//读
 	e, err := redis.Bytes(c.Do("HGET", "testMapToString", "1"))
 	d := StringToMap(e)
 	fmt.Println(d[1])
+	//写
+	d[3] = 5
+	f := MapToString(d)
+	c.Do("HSET", "testMapToString", "1", f)
 
 }
 func StringToMap(a []byte) map[int]int {

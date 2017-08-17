@@ -23,7 +23,7 @@ func (rd RedisDriver) Connent(databae string) (redis.Conn, error) {
 	return c, err
 }
 
-func (rd RedisDriver) Hset(name string, key interface{}, value string) {
+func (rd RedisDriver) Hset(name string, key interface{}, value interface{}) {
 	_, err := rd.Conn.Do("HSET", name, key, value)
 
 	if err != nil {
@@ -31,12 +31,12 @@ func (rd RedisDriver) Hset(name string, key interface{}, value string) {
 	}
 }
 
-func (rd RedisDriver) Hget(name string, key interface{}) {
+func (rd RedisDriver) Hget(name string, key interface{}) (reply interface{}, err error) {
 	a, err := rd.Conn.Do("HGET", name, key)
 	if err != nil {
 		fmt.Println("redis set failed:", err)
 	}
-	fmt.Println(a)
+	return a, err
 }
 
 // 写入值永不过期

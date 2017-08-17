@@ -62,18 +62,20 @@ func AddToGroup(uid int, group string, indexKey int) {
 	var rd = sredis.RedisDriver{Database: conf.MAINREDISDATABASE}
 
 	//获取当前集合
-	userList, _ = redis.Bytes(rd.Hget(group, indexKey, userList))
+	userList, _ := redis.Bytes(rd.Hget(group, indexKey))
 
 	if userList == nil {
-		var userList = make(map[int]int)
-		userList[uid] = 1
-	} else {
-		var ul = base.StringToMap(userList)
+		var ul = make(map[int]int)
 		ul[uid] = 1
+		rd.Hset(group, indexKey, base.MapToString(ul))
+	} else {
+		var ul = make(map[int]int)
+		ul = base.StringToMap(userList)
+		ul[uid] = 1
+		rd.Hset(group, indexKey, base.MapToString(ul))
 	}
 
 	//储存信息
-	rd.Hset(group, indexKey, base.MaptoString(userList))
 
 	//groupUser, _ := rd.Hget(channel, indexKey)
 	//获取人数
