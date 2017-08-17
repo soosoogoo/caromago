@@ -8,7 +8,7 @@ import (
 	"server/game"
 
 	"github.com/name5566/leaf/gate"
-	"github.com/name5566/leaf/log"
+	//"github.com/name5566/leaf/log"
 )
 
 func init() {
@@ -35,11 +35,12 @@ func handleLogin(args []interface{}) {
 	var userInfo = md.GetUserInfo(m.RoleId)
 
 	// 输出收到的消息的内容
-	log.Debug("role_id %v", m.RoleId)
+	//log.Debug("role_id %v", m.RoleId)
 
 	//添加进chan
-
 	a.SetUserData(userInfo)
+
+	game.BindUid(m.RoleId, a)
 	game.PBroadcastMsg(&msg.ReturnMsg{
 		Ststus: "asdasd",
 		Info:   userInfo,

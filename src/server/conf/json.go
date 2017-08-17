@@ -37,10 +37,19 @@ var Mysql struct {
 	Stricton int
 }
 
+var RedisConfig struct {
+	Host     string
+	Port     int
+	Prefix   string
+	Username string
+	Pwd      string
+}
+
 //初始化
 func init() {
 	loadConfig("conf/server.json", &Server)
 	loadConfig("conf/mysql.json", &Mysql)
+	loadConfig("conf/redis.json", &RedisConfig)
 }
 
 func loadConfig(configPath string, structConfig interface{}) {

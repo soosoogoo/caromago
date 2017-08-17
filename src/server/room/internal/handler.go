@@ -23,9 +23,8 @@ func handler(m interface{}, h interface{}) {
 */
 func handleCreateRoom(args []interface{}) {
 
-	//收到的消息
+	//收到的消息,消息的发送者
 	m := args[0].(*msg.CreateRoom)
-	// 消息的发送者
 	a := args[1].(gate.Agent)
 
 	//查询用户当前状态

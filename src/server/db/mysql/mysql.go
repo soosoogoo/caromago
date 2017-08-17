@@ -1,7 +1,6 @@
 package mysql
 
 import (
-	"fmt"
 	"server/conf"
 
 	"github.com/jinzhu/gorm"
@@ -31,7 +30,6 @@ type MysqlDriver struct {
 */
 func (c *MysqlDriver) Connent(databae string) *gorm.DB {
 
-	fmt.Println(databae)
 	var db *gorm.DB
 	if databae == conf.MAINDATABASE {
 		db, _ = gorm.Open("mysql", conf.Mysql.Username+":"+conf.Mysql.Password+"@tcp("+conf.Mysql.Hostname+":3306)/"+databae+"?charset=utf8&parseTime=False&loc=Local")

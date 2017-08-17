@@ -21,7 +21,7 @@ func main() {
 	// 对应游戏服务器 Hello 消息结构体
 	data := []byte(`{
 		"Login": {
-			"RoleId": 2
+			"RoleId": 3
 		}
 	}`)
 
@@ -71,7 +71,8 @@ func writeFromServer(conn net.Conn) {
 			log.Debug("rand", rand.Intn(10), "have no server write", err)
 			return
 		}
-		log.Debug(string(data[0:c]) + "\n ")
+
+		log.Debug(string(data[2:c]) + "\n ")
 
 	}
 }
