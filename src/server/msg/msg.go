@@ -23,6 +23,8 @@ func init() {
 	//room
 	Processor.Register(&CreateRoom{})
 
+	Processor.Register(&RoomList{})
+
 	//通用
 	Processor.Register(&ReturnMsg{})
 }
@@ -47,4 +49,13 @@ type Login struct {
 
 type RoleLogin struct {
 	RoleId int
+}
+
+//房间列表
+type RoomList struct {
+	Stage_id  int
+	Room_id   int
+	Ul_id     int
+	Type      int
+	StageType int
 }

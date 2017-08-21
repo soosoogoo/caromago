@@ -2,6 +2,7 @@ package internal
 
 import (
 	"reflect"
+	"server/base"
 	"server/model/user"
 	"server/msg"
 
@@ -38,9 +39,12 @@ func handleLogin(args []interface{}) {
 	//log.Debug("role_id %v", m.RoleId)
 
 	//添加进chan
-	a.SetUserData(userInfo)
 
-	game.BindUid(m.RoleId, a)
+	var ud base.UserInfo
+	ud.UserId = m.RoleId
+	a.SetUserData(ud)
+
+	//base.BindUid(m.RoleId, a)
 	game.PBroadcastMsg(&msg.ReturnMsg{
 		Ststus: "asdasd",
 		Info:   userInfo,

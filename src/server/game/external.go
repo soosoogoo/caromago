@@ -1,6 +1,7 @@
 package game
 
 import (
+	"server/base"
 	"server/game/internal"
 
 	"github.com/name5566/leaf/gate"
@@ -18,5 +19,5 @@ func PBroadcastMsg(msg interface{}, _a gate.Agent) {
 
 //用户登录
 func BindUid(uid int, _a gate.Agent) {
-	internal.BindUid(uid, _a)
+	base.BindUid(uid, _a)
 }

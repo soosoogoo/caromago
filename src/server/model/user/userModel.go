@@ -8,6 +8,10 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+type UserData struct {
+	UserId int
+}
+
 type User struct {
 	UserId int `gorm:"primary_key"`
 
@@ -26,6 +30,12 @@ type UserModel struct {
 
 	//继承mysql.MysqlDriver
 	mysql.MysqlDriver
+}
+
+type UserInfo struct {
+
+	//继承mysql.MysqlDriver
+	UserId int
 }
 
 //#TODO::构造函数怎么写

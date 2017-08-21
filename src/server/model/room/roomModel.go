@@ -1,6 +1,7 @@
 package room
 
 import (
+	"fmt"
 	//"fmt"
 	"server/conf"
 	"server/db/mysql"
@@ -70,13 +71,13 @@ type RoomModel struct {
 
 //#TODO::构造函数怎么写
 
-//查询房间信息
-func (u *RoomModel) GreateRoom(m *msg.CreateRoom) Room {
+//创建房间
+func (u *RoomModel) GreateRoom(userId int, m *msg.CreateRoom) Room {
 
 	var uDB = u.Connent(conf.SOCKETDATABASE)
 
 	room := Room{
-		Role_id:        m.Stage_id,
+		Role_id:        userId,
 		Stage_id:       m.Stage_id,
 		Stage_level:    m.Stage_id,
 		User_num:       1,
@@ -91,6 +92,16 @@ func (u *RoomModel) GreateRoom(m *msg.CreateRoom) Room {
 	}
 
 	uDB.Create(&room)
+
+	return room
+}
+
+//查询房间
+func (u *RoomModel) RoomList(m *msg.RoomList) []Room {
+	var uDB = u.Connent(conf.SOCKETDATABASE)
+	fmt.Println(m)
+	var room []Room
+	uDB.Find(&room)
 
 	return room
 }

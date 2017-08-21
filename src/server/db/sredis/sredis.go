@@ -11,15 +11,15 @@ type RedisDriver struct {
 	Conn     redis.Conn
 }
 
-func (rd RedisDriver) Connent(databae string) (redis.Conn, error) {
+func (rd RedisDriver) Connent() (redis.Conn, error) {
 
 	//redis.DialPassword("")加密码
-	c, err := redis.Dial("tcp", "localhost:6379")
+	c, err := redis.Dial("tcp", "192.168.0.197:6379")
 	if err != nil {
 		fmt.Println("Connect to redis error", err)
 	}
 	rd.Conn = c
-	rd.Database = databae
+	//rd.Database = databae
 	return c, err
 }
 

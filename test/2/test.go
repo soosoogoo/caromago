@@ -47,8 +47,14 @@ func main() {
 		var talkContent string
 		fmt.Scanln(&talkContent)
 		data := []byte(`{
-			"RoleLogin": {
-				"RoleId": ` + talkContent + `
+			"RoomList": {
+				"RoomList": {
+					"Stage_id": 1,
+					"Room_id": 1,
+					"Ul_id": 1,
+					"Type": 1,
+					"StageType": 1
+				}
 			}
 		}`)
 

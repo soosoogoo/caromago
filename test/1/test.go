@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
-	//"reflect"
 
 	"github.com/name5566/leaf/log"
 )
 
 func main() {
-	conn, err := net.Dial("tcp", "127.0.0.1:3563")
+	conn, err := net.Dial("tcp", "192.168.0.197:3563")
 
 	if err != nil {
 		panic(err)
@@ -26,42 +25,48 @@ func main() {
 		}
 	}`)
 
-	// len + data
-	m := make([]byte, 2+len(data))
+	// 发送消息
+	msg := truncatMsg(data)
+	conn.Write(msg)
 
-	// 默认使用大端序
-	binary.BigEndian.PutUint16(m, uint16(len(data)))
-
-	copy(m[2:], data)
+	//创建房间
+	data2 := []byte(`{
+			"CreateRoom": {
+				"Stage_id": 1,
+				"Type": 1,
+				"Ut_id": 1,
+				"Is_open": 1
+			}
+		}`)
 
 	// 发送消息
-	conn.Write(m)
+	msg2 := truncatMsg(data2)
+	conn.Write(msg2)
 
 	for {
 		var talkContent string
 		fmt.Scanln(&talkContent)
 		data := []byte(`{
-			"RoleLogin": {
-				"RoleId": ` + talkContent + `
+			"RoomList": {
+				"RoomList": {
+					"Stage_id": 1,
+					"Room_id": 1,
+					"Ul_id": 1,
+					"Type": 1,
+					"StageType": 1
+				}
 			}
 		}`)
 
-		// len + data
-		m := make([]byte, 2+len(data))
-
-		// 默认使用大端序
-		binary.BigEndian.PutUint16(m, uint16(len(data)))
-
-		copy(m[2:], data)
-
 		if len(talkContent) > 0 {
-			_, err = conn.Write(m)
+			_, err = conn.Write(truncatMsg(data))
 			if err != nil {
 				fmt.Println("write to server error")
 				return
 			}
 		}
 	}
+
 }
 
 func writeFromServer(conn net.Conn) {
@@ -72,7 +77,21 @@ func writeFromServer(conn net.Conn) {
 			log.Debug("rand", rand.Intn(10), "have no server write", err)
 			return
 		}
-		log.Debug(string(data[0:c]) + "\n ")
+
+		log.Debug(string(data[2:c]) + "\n ")
 
 	}
+}
+
+func truncatMsg(data []byte) []byte {
+	// len + data
+	//data := []byte(`{"RoleLogin": {"RoleId": ` + talkContent + `}}`)
+	m := make([]byte, 2+len(data))
+
+	// 默认使用大端序
+	binary.BigEndian.PutUint16(m, uint16(len(data)))
+
+	copy(m[2:], data)
+
+	return m
 }
