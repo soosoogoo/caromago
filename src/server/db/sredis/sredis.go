@@ -14,7 +14,7 @@ type RedisDriver struct {
 func (rd RedisDriver) Connent() (redis.Conn, error) {
 
 	//redis.DialPassword("")加密码
-	c, err := redis.Dial("tcp", "192.168.0.197:6379")
+	c, err := redis.Dial("tcp", "192.168.0.115:6379")
 	if err != nil {
 		fmt.Println("Connect to redis error", err)
 	}
